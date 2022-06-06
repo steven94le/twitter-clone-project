@@ -1,32 +1,40 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import catLogoSvg from "../assets/logo.svg";
+import { COLORS } from "../constants";
+import { FiHome, FiUser, FiBell, FiBookmark } from "react-icons/fi";
 
 const Sidebar = () => {
   return (
     <StyledDiv>
       <StyledNav>
         <NavBarList>
+          <img src={catLogoSvg} alt="twitter cat logo" />
           <NavBarItem>
-            {/* <svg
-            xmlnssvg="http://www.w3.org/2000/svg"
-            xmlns="http://www.w3.org/2000/svg"
-          > */}
-            <img src={catLogoSvg} alt="cat logo svg" />
-          </NavBarItem>
-          <NavBarItem>
-            <StyledLink to="/">Home</StyledLink>
+            <StyledLink to="/">
+              <FiHome size={"24px"} style={{ paddingRight: "20px" }} />
+              Home
+            </StyledLink>
           </NavBarItem>
           <NavBarItem>
             {/* update dummy profile link */}
-            <StyledLink to="/profile/abc">Profile</StyledLink>
+            <StyledLink to="/profile/abc">
+              <FiUser size={"24px"} style={{ paddingRight: "20px" }} />
+              Profile
+            </StyledLink>
           </NavBarItem>
           <NavBarItem>
-            <StyledLink to="/notifications">Notifications</StyledLink>
+            <StyledLink to="/notifications">
+              <FiBell size={"24px"} style={{ paddingRight: "20px" }} />
+              Notifications
+            </StyledLink>
           </NavBarItem>
           <NavBarItem>
-            <StyledLink to="/bookmarks">Bookmarks</StyledLink>
+            <StyledLink to="/bookmarks">
+              <FiBookmark size={"24px"} style={{ paddingRight: "20px" }} />
+              Bookmarks
+            </StyledLink>
           </NavBarItem>
         </NavBarList>
       </StyledNav>
@@ -40,7 +48,6 @@ const StyledDiv = styled.div`
   width: 160px;
   top: 0;
   left: 0;
-  border: 2px solid red;
 `;
 
 const StyledNav = styled.nav`
@@ -52,12 +59,21 @@ const NavBarList = styled.ul`
 `;
 
 const NavBarItem = styled.li`
-  margin: 15px 0 15px 0;
+  padding: 15px 0 15px 0;
+  width: 150px;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
   text-decoration: none;
   color: black;
+
+  &.active {
+    color: ${COLORS.primary};
+  }
+  &:hover {
+    background-color: pink;
+    border-radius: 10px;
+  }
 `;
 
 export default Sidebar;
