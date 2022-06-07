@@ -9,8 +9,8 @@ const Sidebar = () => {
   return (
     <StyledDiv>
       <StyledNav>
+        <StyledCatLogo src={catLogoSvg} alt="twitter cat logo" />
         <NavBarList>
-          <img src={catLogoSvg} alt="twitter cat logo" />
           <NavBarItem>
             <StyledLink to="/">
               <FiHome size={"24px"} style={{ paddingRight: "20px" }} />
@@ -51,7 +51,13 @@ const StyledDiv = styled.div`
 `;
 
 const StyledNav = styled.nav`
-  margin-left: 100px;
+  margin: 20px 0 0 80px;
+`;
+
+const StyledCatLogo = styled.img`
+  margin-left: 20px;
+  height: 75px;
+  width: 75px;
 `;
 
 const NavBarList = styled.ul`
@@ -67,9 +73,11 @@ const StyledLink = styled(NavLink)`
   text-decoration: none;
   color: black;
 
-  &.active {
+  &.active,
+  &:hover {
     color: ${COLORS.primary};
   }
+
   &:hover {
     background-color: pink;
     border-radius: 10px;
