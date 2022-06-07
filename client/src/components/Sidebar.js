@@ -12,7 +12,7 @@ const Sidebar = () => {
         <StyledCatLogo src={catLogoSvg} alt="twitter cat logo" />
         <NavBarList>
           <NavBarItem>
-            <StyledLink to="/">
+            <StyledLink exact to="/">
               <FiHome size={"24px"} style={{ paddingRight: "20px" }} />
               Home
             </StyledLink>
