@@ -4,11 +4,14 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 // import reportWebVitals from './reportWebVitals';
 import { CurrentUserProvider } from "./components/CurrentUserContext";
+import { HomeFeedProvider } from "./components/HomeFeedContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <CurrentUserProvider>
-    <App />
+    <HomeFeedProvider>
+      <App />
+    </HomeFeedProvider>
   </CurrentUserProvider>
 );
 
