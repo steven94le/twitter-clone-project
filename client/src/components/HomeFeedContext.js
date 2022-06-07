@@ -1,30 +1,51 @@
 import React, { useState, createContext, useEffect } from "react";
+import styled from "styled-components";
+// import { Redirect } from "react-router-dom";
 
 export const HomeFeedContext = createContext(null);
 
 export const HomeFeedProvider = ({ children }) => {
   const [feed, setFeed] = useState(null);
-  const [feedStatus, setFeedStatus] = useState("loading");
-  //   const [isLoaded, setIsLoaded] = useState(false);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // setIsLoaded(false);
-    // console.log("isLoaded", isLoaded);
-
     fetch("/api/me/home-feed")
-      .then((res) => res.json())
+      .then((res) => {
+        // console.log("res", res);
+        if (!res.ok) {
+          throw Error("Could not fetch data");
+        }
+        return res.json();
+      })
       .then((data) => {
-        // setIsLoaded(true);
         setFeed(data);
-        setFeedStatus("idle");
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        setError(err.message);
       });
   }, []);
 
-  //   console.log("isLoaded", isLoaded);
-
   return (
-    <HomeFeedContext.Provider value={{ feed, feedStatus }}>
-      {children}
-    </HomeFeedContext.Provider>
+    <div>
+      {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+      {/* {error && <Redirect to="/error" />} */}
+      {error && <StyledLoadPara>{error}</StyledLoadPara>}
+      {feed && (
+        <HomeFeedContext.Provider value={{ feed, isPending }}>
+          {children}
+        </HomeFeedContext.Provider>
+      )}
+    </div>
   );
 };
+
+const StyledLoadPara = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;

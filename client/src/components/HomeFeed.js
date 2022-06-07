@@ -25,7 +25,7 @@ const HomeFeed = () => {
     const tweet = feed.tweetsById[tweetId];
     // console.log("tweet", tweet);
     return (
-      <Wrapper>
+      <Wrapper key={`${tweetId}`}>
         <TweetHeader>
           <TweetAvatar src={tweet.author.avatarSrc} />
           <div>{tweet.author.displayName}</div>
