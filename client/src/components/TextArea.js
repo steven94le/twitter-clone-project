@@ -62,6 +62,10 @@ const TweetButton = styled.button`
   color: white;
   border-radius: 15px;
   font-size: 16px;
+
+  &:disabled {
+    background-color: grey;
+  }
 `;
 
 export default TextArea;
