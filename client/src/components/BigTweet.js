@@ -1,11 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import TweetActions from "./TweetActions";
+import { useHistory } from "react-router-dom";
+import { format } from "date-fns";
 
 const BigTweet = ({ tweet, isPending, error }) => {
+  const history = useHistory();
+  const handleClick = () => {
+    history.push("/");
+  };
+
   return tweet ? (
     <>
       <link to={`/tweet/${tweet.id}`} />
+      <button onClick={handleClick}>Go Back</button>
       <TweetHeader>
         <TweetAvatar src={tweet.author.avatarSrc} />
         <div>{tweet.author.displayName}</div>
@@ -20,7 +28,9 @@ const BigTweet = ({ tweet, isPending, error }) => {
             alt="cat pic tweet"
           />
         ) : null}
-        <div>{tweet.timestamp} - Critter web app</div>
+        <div>
+          {format(new Date(tweet.timestamp), "p - MMM d YYY")} - Critter web app
+        </div>
       </TweetContent>
       <TweetActions />
     </>

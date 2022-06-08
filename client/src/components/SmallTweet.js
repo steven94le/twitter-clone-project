@@ -3,6 +3,7 @@ import { HomeFeedContext } from "./HomeFeedContext";
 import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { useHistory } from "react-router-dom";
+import { format } from "date-fns";
 
 const SmallTweet = () => {
   const { feed } = useContext(HomeFeedContext);
@@ -25,7 +26,7 @@ const SmallTweet = () => {
           <TweetAvatar src={tweet.author.avatarSrc} />
           <div>{tweet.author.displayName}</div>
           <div>@{tweet.author.handle}</div>
-          <div>{tweet.timestamp}</div>
+          <div>{format(new Date(tweet.timestamp), "MMM do")}</div>
         </TweetHeader>
         <TweetContent>
           <div>{tweet.status}</div>
@@ -45,6 +46,10 @@ const SmallTweet = () => {
 
 const Wrapper = styled.div`
   margin-bottom: 30px;
+  &:hover {
+    cursor: pointer;
+    border: 0.1px blue solid;
+  }
 `;
 const TweetHeader = styled.header`
   display: flex;
