@@ -1,74 +1,94 @@
 import React, { useContext } from "react";
 import { CurrentUserContext } from "./CurrentUserContext";
 import styled from "styled-components";
+import { format } from "date-fns";
+
+import { GoLocation, GoCalendar } from "react-icons/go";
 
 //GET /api/:handle/profile
 // Fetch the information for a specific user. Returns data in the same shape as /api/me/profile.
 
 // If the user handle supplied does not exist, it returns a 404 error of user-not-found.
 
-// GET /api/:handle/following
-// Returns an array of user profiles that the specified user is following.
-
-// GET /api/:handle/followers
-// Same as /api/:handle/following, but shows the user's followers (people who follow the user,
-// instead of people that the user follows).
-
-// PUT /api/:handle/follow
-// Follow the specified user, for the currently-logged-in user.
-
-// If you are already following this user, you'll get a "409 Conflict" error; you want to use the /unfollow endpoint instead.
-
-// If all goes well, you should receive the following response:
-
-// {
-//   "success": true
-// }
-
-// PUT /api/:handle/unfollow
-// Stop following the specified user, for the currently-logged-in user.
-
-// If you are not following this user, you'll get a "409 Conflict" error; you want to use the /follow endpoint instead.
-
-// If all goes well, you should receive the following response:
-
-// {
-//   "success": true
-// }
-
 const Profile = () => {
   const { currentUser } = useContext(CurrentUserContext);
   console.log("currentUser", currentUser);
 
   return (
-    <>
-      <ProfileBanner src={currentUser.profile.bannerSrc} alt="profile banner" />
-      <ProfileAvatar src={currentUser.profile.avatarSrc} alt="profile avatar" />
-
+    <Wrapper>
+      <Banner src={currentUser.profile.bannerSrc} alt="banner" />
+      <>
+        <Avatar src={currentUser.profile.avatarSrc} alt="avatar" />
+      </>
       {currentUser.profile.isBeingFollowedByYou ? (
-        <button>Following</button>
+        <Following>Following</Following>
       ) : null}
-      <div>{currentUser.profile.displayName}</div>
-      <div>@{currentUser.profile.handle}</div>
-      {currentUser.profile.isFollowingYou ? "Follows You" : null}
-      <div>{currentUser.profile.bio}</div>
-      <div>{currentUser.profile.location}</div>
-      <div>Joined {currentUser.profile.joined}</div>
-      <div>{currentUser.profile.numFollowing} Following</div>
-      <div>{currentUser.profile.numFollowers} Followers</div>
-    </>
+      <DisplayName>{currentUser.profile.displayName}</DisplayName>
+      <Handle>@{currentUser.profile.handle}</Handle>
+
+      {currentUser.profile.isFollowingYou ? (
+        <FollowsYou>"Follows You"</FollowsYou>
+      ) : null}
+
+      <Bio>{currentUser.profile.bio}</Bio>
+      <div>
+        <GoLocation />
+        {currentUser.profile.location}
+        <div>
+          <GoCalendar />
+          Joined {format(new Date(currentUser.profile.joined), "MMMM yyyy")}
+        </div>
+      </div>
+      <div>
+        {currentUser.profile.numFollowing} Following{" "}
+        {currentUser.profile.numFollowers} Followers
+      </div>
+      <>
+        <div>Tweet</div>
+        <div>Media</div>
+        <div>Likes</div>
+      </>
+    </Wrapper>
   );
 };
 
 export default Profile;
 
-const ProfileBanner = styled.img`
+const Wrapper = styled.div`
   width: 500px;
+`;
+const Banner = styled.img`
   height: 200px;
 `;
 
-const ProfileAvatar = styled.img`
+const Avatar = styled.img`
   border-radius: 50%;
   height: 100px;
   width: 100px;
+  border: 2px solid white;
+  margin-top: -60px;
+  margin-left: 20px;
+`;
+
+const Following = styled.button`
+  border-radius: 15px;
+  color: white;
+  background-color: purple;
+`;
+
+const DisplayName = styled.div`
+  font-weight: bold;
+`;
+
+const Handle = styled.div`
+  color: grey;
+`;
+
+const FollowsYou = styled.p`
+  background-color: grey;
+  border-radius: 10px;
+`;
+
+const Bio = styled.div`
+  padding: 10px 0 10px 0;
 `;
