@@ -1,22 +1,50 @@
-import React from "react";
-
-// GET /api/tweet/:tweetId
-// Returns data about the specified tweet.
-
-// POST /api/tweet
-// Create a new tweet from the current user. This is the endpoint you'll want to hit when you compose a new tweet and click "tweet" (or "meow").
-
-// You'll need to send a JSON body in the following format:
-
-// {
-//   "status": "your text here"
-// }
-// Important: The API does not support uploading media. So you can only create new text tweets, not images. Sorry about that!
-
-// The endpoint will return your new tweet, in the standard tweet format (including the auto-generated unique ID).
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import BigTweet from "./BigTweet";
+// import { Redirect } from "react-router-dom";
 
 const TweetDetails = () => {
-  return <div>Tweet Details</div>;
+  const { tweetId } = useParams();
+  const [tweet, setTweet] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(`/api/tweet/${tweetId}`)
+      .then((res) => {
+        console.log("res", res);
+        if (!res.ok) {
+          throw Error("Could not fetch data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setTweet(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        setError(err.message);
+      });
+  }, [tweetId]);
+
+  return (
+    <>
+      {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+      {/* {error && <Redirect to="/error" />} */}
+      {error && <StyledLoadPara>{error}</StyledLoadPara>}
+      <BigTweet tweet={tweet} />
+    </>
+  );
 };
 
 export default TweetDetails;
+
+const StyledLoadPara = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
