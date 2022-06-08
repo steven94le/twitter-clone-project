@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import BigTweet from "./BigTweet";
 // import { Redirect } from "react-router-dom";
@@ -20,7 +19,9 @@ const TweetDetails = () => {
         return res.json();
       })
       .then((data) => {
-        setTweet(data);
+        // console.log(data);
+        // console.log(data.tweet);
+        setTweet(data.tweet);
         setIsPending(false);
         setError(null);
       })
@@ -32,19 +33,9 @@ const TweetDetails = () => {
 
   return (
     <>
-      {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
-      {/* {error && <Redirect to="/error" />} */}
-      {error && <StyledLoadPara>{error}</StyledLoadPara>}
-      <BigTweet tweet={tweet} />
+      <BigTweet tweet={tweet} isPending={isPending} error={error} />
     </>
   );
 };
 
 export default TweetDetails;
-
-const StyledLoadPara = styled.p`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;

@@ -1,16 +1,26 @@
 import React, { useContext } from "react";
 import { HomeFeedContext } from "./HomeFeedContext";
 import styled from "styled-components";
+import TweetActions from "./TweetActions";
+import { useHistory } from "react-router-dom";
 
 const SmallTweet = () => {
   const { feed } = useContext(HomeFeedContext);
   console.log("feed", feed);
+  const history = useHistory();
+
   //conditional chaining
+  //add index to map param to add onto wrapper key
   return feed?.tweetIds.map((tweetId) => {
     const tweet = feed.tweetsById[tweetId];
     // console.log("tweet", tweet);
+
+    const handleClick = () => {
+      history.push(`/tweet/${tweetId}`);
+    };
+
     return (
-      <Wrapper key={`${tweetId}`}>
+      <Wrapper key={`${tweetId}`} onClick={handleClick}>
         <TweetHeader>
           <TweetAvatar src={tweet.author.avatarSrc} />
           <div>{tweet.author.displayName}</div>
@@ -27,6 +37,7 @@ const SmallTweet = () => {
             />
           ) : null}
         </TweetContent>
+        <TweetActions />
       </Wrapper>
     );
   });
