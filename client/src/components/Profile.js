@@ -1,47 +1,69 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "./CurrentUserContext";
 import styled from "styled-components";
 import { format } from "date-fns";
-
 import { GoLocation, GoCalendar } from "react-icons/go";
-
-//GET /api/:handle/profile
-// Fetch the information for a specific user. Returns data in the same shape as /api/me/profile.
-
-// If the user handle supplied does not exist, it returns a 404 error of user-not-found.
+import { useParams } from "react-router-dom";
+import ErrorPage from "./ErrorPage";
 
 const Profile = () => {
-  const { currentUser } = useContext(CurrentUserContext);
-  console.log("currentUser", currentUser);
+  // const { currentUser } = useContext(CurrentUserContext);
+  // console.log("currentUser", currentUser);
+  const { profileId } = useParams();
+  const [user, setUser] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
 
-  return (
+  useEffect(() => {
+    fetch(`/api/${profileId}/profile`)
+      .then((res) => {
+        // console.log("profile res", res);
+        if (!res.ok) {
+          throw Error("Could not fetch data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setUser(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        setError(err.message);
+      });
+  }, [profileId]);
+
+  // console.log("user", user);
+
+  return user ? (
     <Wrapper>
-      <Banner src={currentUser.profile.bannerSrc} alt="banner" />
+      <Banner src={user.profile.bannerSrc} alt="banner" />
       <>
-        <Avatar src={currentUser.profile.avatarSrc} alt="avatar" />
+        <Avatar src={user.profile.avatarSrc} alt="avatar" />
       </>
-      {currentUser.profile.isBeingFollowedByYou ? (
+      {user.profile.isBeingFollowedByYou ? (
         <Following>Following</Following>
       ) : null}
-      <DisplayName>{currentUser.profile.displayName}</DisplayName>
-      <Handle>@{currentUser.profile.handle}</Handle>
+      <DisplayName>{user.profile.displayName}</DisplayName>
+      <Handle>@{user.profile.handle}</Handle>
 
-      {currentUser.profile.isFollowingYou ? (
+      {user.profile.isFollowingYou ? (
         <FollowsYou>"Follows You"</FollowsYou>
       ) : null}
 
-      <Bio>{currentUser.profile.bio}</Bio>
+      <Bio>{user.profile.bio}</Bio>
       <div>
         <GoLocation />
-        {currentUser.profile.location}
+        {user.profile.location}
         <div>
           <GoCalendar />
-          Joined {format(new Date(currentUser.profile.joined), "MMMM yyyy")}
+          Joined {format(new Date(user.profile.joined), "MMMM yyyy")}
         </div>
       </div>
       <div>
-        {currentUser.profile.numFollowing} Following{" "}
-        {currentUser.profile.numFollowers} Followers
+        {user.profile.numFollowing} Following {user.profile.numFollowers}{" "}
+        Followers
       </div>
       <>
         <div>Tweet</div>
@@ -49,6 +71,11 @@ const Profile = () => {
         <div>Likes</div>
       </>
     </Wrapper>
+  ) : (
+    <>
+      {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+      {error && <ErrorPage />}
+    </>
   );
 };
 
@@ -91,4 +118,11 @@ const FollowsYou = styled.p`
 
 const Bio = styled.div`
   padding: 10px 0 10px 0;
+`;
+
+const StyledLoadPara = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

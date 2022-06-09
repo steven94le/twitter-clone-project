@@ -33,7 +33,7 @@ const App = () => {
             <Route exact path="/bookmarks" component={Bookmarks} />
             <Route exact path="/tweet/:tweetId" component={TweetDetails} />
             <Route exact path="/error" component={ErrorPage} />
-            <Route exact path="/:profileId" component={Profile} />
+            <Route exact path="/profile/:profileId" component={Profile} />
           </Switch>
         </Router>
       </StyledDiv>
