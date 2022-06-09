@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { CurrentUserContext } from "./CurrentUserContext";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
 import { GoLocation, GoCalendar } from "react-icons/go";
 import { useParams } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
+import SmallTweet from "./SmallTweet";
 
 const Profile = () => {
   // const { currentUser } = useContext(CurrentUserContext);
   // console.log("currentUser", currentUser);
   const { profileId } = useParams();
   const [user, setUser] = useState(null);
+  const [userFeed, setUserFeed] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
 
@@ -36,7 +37,26 @@ const Profile = () => {
 
   // console.log("user", user);
 
-  return user ? (
+  useEffect(() => {
+    fetch(`/api/${profileId}/feed`)
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Could not fetch data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setUserFeed(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        setError(err.message);
+      });
+  }, [profileId]);
+
+  return user && userFeed ? (
     <Wrapper>
       <Banner src={user.profile.bannerSrc} alt="banner" />
       <>
@@ -70,6 +90,7 @@ const Profile = () => {
         <div>Media</div>
         <div>Likes</div>
       </>
+      <SmallTweet userFeed={userFeed} isPending={isPending} error={error} />
     </Wrapper>
   ) : (
     <>

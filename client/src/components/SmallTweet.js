@@ -1,21 +1,18 @@
-import React, { useContext } from "react";
-import { HomeFeedContext } from "./HomeFeedContext";
+import React from "react";
+
 import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import ErrorPage from "./ErrorPage";
 
-const SmallTweet = () => {
-  const { feed } = useContext(HomeFeedContext);
-  // console.log("feed", feed);
-
+const SmallTweet = ({ userFeed, isPending, error }) => {
   //conditional chaining
-  //add index to map param to add onto wrapper key
-  return feed?.tweetIds.map((tweetId, index) => {
-    const tweet = feed.tweetsById[tweetId];
+  return userFeed?.tweetIds.map((tweetId, index) => {
+    const tweet = userFeed.tweetsById[tweetId];
     // console.log("tweet", tweet);
 
-    return (
+    return userFeed ? (
       <Wrapper key={`${tweetId}-${index}`}>
         <StyledLink to={`/tweet/${tweetId}`}>
           <TweetHeader>
@@ -39,6 +36,11 @@ const SmallTweet = () => {
         </StyledLink>
         <TweetActions />
       </Wrapper>
+    ) : (
+      <>
+        {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+        {error && <ErrorPage />}
+      </>
     );
   });
 };
@@ -86,6 +88,13 @@ const TweetImg = styled.img`
 
 const TweetContent = styled.div`
   margin: -20px 0 0 60px;
+`;
+
+const StyledLoadPara = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default SmallTweet;

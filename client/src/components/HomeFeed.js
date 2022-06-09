@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { HomeFeedContext } from "./HomeFeedContext";
 
-import TweetActions from "./TweetActions";
 import SmallTweet from "./SmallTweet";
 
-// GET /api/:handle/feed
-// Returns a list of tweets authored by the user specified with the :handle param. Includes any retweets that user has made.
-
 const HomeFeed = () => {
+  const { feed, isPending, error } = useContext(HomeFeedContext);
   return (
     <>
-      <SmallTweet />
-      <TweetActions />
+      <SmallTweet userFeed={feed} isPending={isPending} error={error} />
     </>
   );
 };
