@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BigTweet from "./BigTweet";
-// import { Redirect } from "react-router-dom";
 
 const TweetDetails = () => {
   const { tweetId } = useParams();
@@ -12,7 +11,7 @@ const TweetDetails = () => {
   useEffect(() => {
     fetch(`/api/tweet/${tweetId}`)
       .then((res) => {
-        console.log("res", res);
+        // console.log("tweet res", res);
         if (!res.ok) {
           throw Error("Could not fetch data");
         }

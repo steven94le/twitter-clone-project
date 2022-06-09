@@ -7,13 +7,12 @@ import { format } from "date-fns";
 import ErrorPage from "./ErrorPage";
 
 const SmallTweet = ({ userFeed, isPending, error }) => {
-  //conditional chaining
   return userFeed?.tweetIds.map((tweetId, index) => {
     const tweet = userFeed.tweetsById[tweetId];
     // console.log("tweet", tweet);
 
-    return userFeed ? (
-      <Wrapper key={`${tweetId}-${index}`}>
+    return !isPending ? (
+      <Wrapper key={`${tweetId.id}-${index}`}>
         <StyledLink to={`/tweet/${tweetId}`}>
           <TweetHeader>
             <TweetAvatar src={tweet.author.avatarSrc} />
@@ -38,7 +37,7 @@ const SmallTweet = ({ userFeed, isPending, error }) => {
       </Wrapper>
     ) : (
       <>
-        {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+        {isPending && <p>SmallTweet Loading...</p>}
         {error && <ErrorPage />}
       </>
     );
@@ -88,13 +87,6 @@ const TweetImg = styled.img`
 
 const TweetContent = styled.div`
   margin: -20px 0 0 60px;
-`;
-
-const StyledLoadPara = styled.p`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 export default SmallTweet;

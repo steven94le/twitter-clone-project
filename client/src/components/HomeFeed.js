@@ -1,13 +1,20 @@
 import React, { useContext } from "react";
 import { HomeFeedContext } from "./HomeFeedContext";
+import { CurrentUserContext } from "./CurrentUserContext";
+import TextArea from "./TextArea";
 
 import SmallTweet from "./SmallTweet";
 
 const HomeFeed = () => {
-  const { feed, isPending, error } = useContext(HomeFeedContext);
+  const { feed, feedPending, error } = useContext(HomeFeedContext);
+  // const { currentUser, currentUserPending } = useContext(CurrentUserContext);
+
   return (
     <>
-      <SmallTweet userFeed={feed} isPending={isPending} error={error} />
+      <div>Home</div>
+      <div>User Avatar</div>
+      <TextArea />
+      <SmallTweet userFeed={feed} isPending={feedPending} error={error} />
     </>
   );
 };

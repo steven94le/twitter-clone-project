@@ -94,7 +94,7 @@ const Profile = () => {
     </Wrapper>
   ) : (
     <>
-      {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+      {isPending && <StyledLoadPara>Profile Loading...</StyledLoadPara>}
       {error && <ErrorPage />}
     </>
   );

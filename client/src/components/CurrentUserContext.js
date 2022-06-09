@@ -1,28 +1,44 @@
 import React, { useState, createContext, useEffect } from "react";
+import ErrorPage from "./ErrorPage";
 
 export const CurrentUserContext = createContext(null);
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [status, setStatus] = useState("loading");
-
-  // Fetch the user data from the API (/api/me/profile)
-  // When the data is received, update currentUser.
-  // Also, set `status` to `idle`
+  const [currentUserPending, setCurrentUserPending] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch("/api/me/profile")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Could not fetch data");
+        }
+        return res.json();
+      })
       .then((data) => {
         setCurrentUser(data);
-        setStatus("idle");
+        setCurrentUserPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setCurrentUserPending(false);
+        setError(err.message);
       });
   }, []);
   //   console.log(currentUser);
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser, status }}>
-      {children}
-    </CurrentUserContext.Provider>
+    <>
+      {currentUserPending && <p>Current User Loading...</p>}
+      {error && <ErrorPage />}
+      {currentUser && (
+        <CurrentUserContext.Provider
+          value={{ currentUser, currentUserPending }}
+        >
+          {children}
+        </CurrentUserContext.Provider>
+      )}
+    </>
   );
 };

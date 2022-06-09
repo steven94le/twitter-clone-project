@@ -11,8 +11,6 @@ import TweetDetails from "./components/TweetDetails";
 import Profile from "./components/Profile";
 import ErrorPage from "./components/ErrorPage";
 
-import TextArea from "./components/TextArea";
-
 const App = () => {
   return (
     <>
@@ -21,14 +19,7 @@ const App = () => {
         <Router>
           <Sidebar />
           <Switch>
-            <Route exact path="/">
-              <div>Home</div>
-              <div>
-                <div>User Avatar</div>
-                <TextArea />
-              </div>
-              <HomeFeed />
-            </Route>
+            <Route exact path="/" component={HomeFeed} />
             <Route exact path="/notifications" component={Notifications} />
             <Route exact path="/bookmarks" component={Bookmarks} />
             <Route exact path="/tweet/:tweetId" component={TweetDetails} />

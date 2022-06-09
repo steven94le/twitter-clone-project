@@ -13,7 +13,6 @@ const BigTweet = ({ tweet, isPending, error }) => {
 
   return tweet ? (
     <>
-      <link to={`/tweet/${tweet.id}`} />
       <button onClick={handleClick}>Go Back</button>
       <TweetHeader>
         <TweetAvatar src={tweet.author.avatarSrc} />

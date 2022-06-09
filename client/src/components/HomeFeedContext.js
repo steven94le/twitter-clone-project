@@ -1,12 +1,11 @@
 import React, { useState, createContext, useEffect } from "react";
-import styled from "styled-components";
 import ErrorPage from "./ErrorPage";
 
 export const HomeFeedContext = createContext(null);
 
 export const HomeFeedProvider = ({ children }) => {
   const [feed, setFeed] = useState(null);
-  const [isPending, setIsPending] = useState(true);
+  const [feedPending, setFeedPending] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -20,21 +19,21 @@ export const HomeFeedProvider = ({ children }) => {
       })
       .then((data) => {
         setFeed(data);
-        setIsPending(false);
+        setFeedPending(false);
         setError(null);
       })
       .catch((err) => {
-        setIsPending(false);
+        setFeedPending(false);
         setError(err.message);
       });
   }, []);
 
   return (
     <div>
-      {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
+      {feedPending && <p>Homepage Loading...</p>}
       {error && <ErrorPage />}
       {feed && (
-        <HomeFeedContext.Provider value={{ feed, isPending }}>
+        <HomeFeedContext.Provider value={{ feed, feedPending }}>
           {children}
         </HomeFeedContext.Provider>
       )}
@@ -42,9 +41,9 @@ export const HomeFeedProvider = ({ children }) => {
   );
 };
 
-const StyledLoadPara = styled.p`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
+// const StyledLoadPara = styled.p`
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// `;
