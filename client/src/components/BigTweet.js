@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { useHistory } from "react-router-dom";
 import { format } from "date-fns";
+import ErrorPage from "./ErrorPage";
 
 const BigTweet = ({ tweet, isPending, error }) => {
   const history = useHistory();
@@ -37,8 +38,7 @@ const BigTweet = ({ tweet, isPending, error }) => {
   ) : (
     <>
       {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
-      {/* {error && <link to="/error" />} */}
-      {error && <StyledLoadPara>{error}</StyledLoadPara>}
+      {error && <ErrorPage />}
     </>
   );
 };

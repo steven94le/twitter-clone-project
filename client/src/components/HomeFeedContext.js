@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import styled from "styled-components";
-// import { Redirect } from "react-router-dom";
+import ErrorPage from "./ErrorPage";
 
 export const HomeFeedContext = createContext(null);
 
@@ -32,8 +32,7 @@ export const HomeFeedProvider = ({ children }) => {
   return (
     <div>
       {isPending && <StyledLoadPara>Loading...</StyledLoadPara>}
-      {/* {error && <Redirect to="/error" />} */}
-      {error && <StyledLoadPara>{error}</StyledLoadPara>}
+      {error && <ErrorPage />}
       {feed && (
         <HomeFeedContext.Provider value={{ feed, isPending }}>
           {children}
