@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import catLogoSvg from "../assets/logo.svg";
 import { COLORS } from "../constants";
 import { FiHome, FiUser, FiBell, FiBookmark } from "react-icons/fi";
+import { CurrentUserContext } from "./CurrentUserContext";
 
 const Sidebar = () => {
+  const { currentUser } = useContext(CurrentUserContext);
+
   return (
     <StyledDiv>
       <StyledNav>
@@ -18,7 +21,7 @@ const Sidebar = () => {
             </StyledLink>
           </NavBarItem>
           <NavBarItem>
-            <StyledLink to="/:profileId">
+            <StyledLink to={`/profile/${currentUser.profile.handle}`}>
               <FiUser size={"24px"} style={{ paddingRight: "20px" }} />
               Profile
             </StyledLink>
