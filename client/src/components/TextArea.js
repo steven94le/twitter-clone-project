@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { COLORS } from "../constants";
 
 const TextArea = () => {
+  const [tweetState, setTweetState] = useState("");
   const [tweetInput, setTweetInput] = useState("");
   const maxChar = 280;
   const charLimit = maxChar * 0.2;
   const charCounter = maxChar - tweetInput.length;
 
   const handleOnChange = (ev) => {
+    ev.preventDefault();
     setTweetInput(ev.target.value);
   };
 
@@ -21,37 +23,35 @@ const TextArea = () => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ tweetInput }),
+      body: JSON.stringify({ status: tweetInput }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        setTweetState(data.message);
         window.location.reload();
-      })
-      .catch(console.error);
+      });
   };
 
   return (
     <>
-      <TweetTextArea
-        type="text"
-        placeholder="What's Happening"
-        value={tweetInput}
-        onChange={handleOnChange}
-      />
-      <TweetAction>
-        <TweetCounter charCounter={charCounter} charLimit={charLimit}>
-          {charCounter}
-        </TweetCounter>
-        <TweetButton
-          type="submit"
-          disabled={charCounter < 0 ? true : false}
-          onClick={handleSubmitTweet}
-        >
-          Meow
-        </TweetButton>
-      </TweetAction>
-      <div>{tweetInput}</div>
+      <form onSubmit={handleSubmitTweet}>
+        <TweetTextArea
+          type="text"
+          placeholder="What's Happening"
+          value={tweetInput}
+          onChange={handleOnChange}
+        />
+        <TweetAction>
+          <TweetCounter charCounter={charCounter} charLimit={charLimit}>
+            {charCounter}
+          </TweetCounter>
+          <TweetButton type="submit" disabled={charCounter < 0 ? true : false}>
+            Meow
+          </TweetButton>
+        </TweetAction>
+      </form>
+      <>{tweetState}</>
     </>
   );
 };

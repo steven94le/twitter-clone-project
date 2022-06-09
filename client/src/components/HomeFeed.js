@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { HomeFeedContext } from "./HomeFeedContext";
-import { CurrentUserContext } from "./CurrentUserContext";
+// import { CurrentUserContext } from "./CurrentUserContext";
 import TextArea from "./TextArea";
 
 import SmallTweet from "./SmallTweet";
