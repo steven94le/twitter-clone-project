@@ -3,13 +3,32 @@ import styled from "styled-components";
 import { COLORS } from "../constants";
 
 const TextArea = () => {
-  const [charLength, setCharLength] = useState("");
+  const [tweetInput, setTweetInput] = useState("");
   const maxChar = 280;
   const charLimit = maxChar * 0.2;
-  const charCounter = maxChar - charLength.length;
+  const charCounter = maxChar - tweetInput.length;
 
   const handleOnChange = (ev) => {
-    setCharLength(ev.target.value);
+    setTweetInput(ev.target.value);
+  };
+
+  const handleSubmitTweet = (ev) => {
+    ev.preventDefault();
+
+    fetch(`/api/tweet`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ tweetInput }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+      })
+      .catch(console.error);
   };
 
   return (
@@ -17,17 +36,22 @@ const TextArea = () => {
       <TweetTextArea
         type="text"
         placeholder="What's Happening"
-        value={charLength}
+        value={tweetInput}
         onChange={handleOnChange}
       />
       <TweetAction>
         <TweetCounter charCounter={charCounter} charLimit={charLimit}>
           {charCounter}
         </TweetCounter>
-        <TweetButton type="submit" disabled={charCounter < 0 ? true : false}>
+        <TweetButton
+          type="submit"
+          disabled={charCounter < 0 ? true : false}
+          onClick={handleSubmitTweet}
+        >
           Meow
         </TweetButton>
       </TweetAction>
+      <div>{tweetInput}</div>
     </>
   );
 };
