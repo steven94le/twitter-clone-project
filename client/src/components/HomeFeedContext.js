@@ -1,12 +1,14 @@
 import React, { useState, createContext, useEffect } from "react";
-import ErrorPage from "./ErrorPage";
+import { useHistory } from "react-router-dom";
 
 export const HomeFeedContext = createContext(null);
 
 export const HomeFeedProvider = ({ children }) => {
   const [feed, setFeed] = useState(null);
   const [feedPending, setFeedPending] = useState(true);
-  const [error, setError] = useState(null);
+  const [feedError, setFeedError] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     fetch("/api/me/home-feed")
@@ -20,30 +22,20 @@ export const HomeFeedProvider = ({ children }) => {
       .then((data) => {
         setFeed(data);
         setFeedPending(false);
-        setError(null);
+        setFeedError(null);
       })
       .catch((err) => {
         setFeedPending(false);
-        setError(err.message);
+        setFeedError(err.message);
+        history.push("/error");
       });
-  }, []);
+  }, [history]);
 
   return (
     <div>
-      {feedPending && <p>Homepage Loading...</p>}
-      {error && <ErrorPage />}
-      {feed && (
-        <HomeFeedContext.Provider value={{ feed, feedPending }}>
-          {children}
-        </HomeFeedContext.Provider>
-      )}
+      <HomeFeedContext.Provider value={{ feed, feedPending, feedError }}>
+        {children}
+      </HomeFeedContext.Provider>
     </div>
   );
 };
-
-// const StyledLoadPara = styled.p`
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// `;

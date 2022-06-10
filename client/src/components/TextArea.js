@@ -25,11 +25,18 @@ const TextArea = () => {
       },
       body: JSON.stringify({ status: tweetInput }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Could not fetch data");
+        }
+        return res.json();
+      })
       .then((data) => {
-        console.log(data);
         setTweetState(data.message);
         window.location.reload();
+      })
+      .catch((err) => {
+        window.alert("Tweet attempt failed! Please try again.");
       });
   };
 

@@ -21,7 +21,7 @@ const Sidebar = () => {
             </StyledLink>
           </NavBarItem>
           <NavBarItem>
-            <StyledLink to={`/profile/${currentUser.profile.handle}`}>
+            <StyledLink to={`/profile/${currentUser?.profile.handle}`}>
               <FiUser size={"24px"} style={{ paddingRight: "20px" }} />
               Profile
             </StyledLink>

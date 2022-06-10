@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import { GoLocation, GoCalendar } from "react-icons/go";
 import { useParams } from "react-router-dom";
-import ErrorPage from "./ErrorPage";
 import SmallTweet from "./SmallTweet";
+
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
   // const { currentUser } = useContext(CurrentUserContext);
@@ -14,6 +15,8 @@ const Profile = () => {
   const [userFeed, setUserFeed] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     fetch(`/api/${profileId}/profile`)
@@ -32,8 +35,9 @@ const Profile = () => {
       .catch((err) => {
         setIsPending(false);
         setError(err.message);
+        history.push("/error");
       });
-  }, [profileId]);
+  }, [profileId, history]);
 
   // console.log("user", user);
 
@@ -53,8 +57,9 @@ const Profile = () => {
       .catch((err) => {
         setIsPending(false);
         setError(err.message);
+        history.push("/error");
       });
-  }, [profileId]);
+  }, [profileId, history]);
 
   return user && userFeed ? (
     <Wrapper>
@@ -90,13 +95,14 @@ const Profile = () => {
         <div>Media</div>
         <div>Likes</div>
       </>
-      <SmallTweet userFeed={userFeed} isPending={isPending} error={error} />
+      <SmallTweet
+        userFeed={userFeed}
+        feedPending={isPending}
+        feedError={error}
+      />
     </Wrapper>
   ) : (
-    <>
-      {isPending && <StyledLoadPara>Profile Loading...</StyledLoadPara>}
-      {error && <ErrorPage />}
-    </>
+    <>{isPending && <p>Profile Loading...</p>}</>
   );
 };
 
@@ -139,11 +145,4 @@ const FollowsYou = styled.p`
 
 const Bio = styled.div`
   padding: 10px 0 10px 0;
-`;
-
-const StyledLoadPara = styled.p`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;

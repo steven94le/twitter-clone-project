@@ -1,12 +1,14 @@
 import React, { useState, createContext, useEffect } from "react";
-import ErrorPage from "./ErrorPage";
+import { useHistory } from "react-router-dom";
 
 export const CurrentUserContext = createContext(null);
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserPending, setCurrentUserPending] = useState(true);
-  const [error, setError] = useState(null);
+  const [currentUserError, setCurrentUserError] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     fetch("/api/me/profile")
@@ -19,26 +21,21 @@ export const CurrentUserProvider = ({ children }) => {
       .then((data) => {
         setCurrentUser(data);
         setCurrentUserPending(false);
-        setError(null);
+        setCurrentUserError(null);
       })
       .catch((err) => {
         setCurrentUserPending(false);
-        setError(err.message);
+        setCurrentUserError(err.message);
+        history.push("/error");
       });
-  }, []);
+  }, [history]);
   //   console.log(currentUser);
 
   return (
-    <>
-      {currentUserPending && <p>Current User Loading...</p>}
-      {error && <ErrorPage />}
-      {currentUser && (
-        <CurrentUserContext.Provider
-          value={{ currentUser, currentUserPending }}
-        >
-          {children}
-        </CurrentUserContext.Provider>
-      )}
-    </>
+    <CurrentUserContext.Provider
+      value={{ currentUser, currentUserPending, currentUserError }}
+    >
+      {children}
+    </CurrentUserContext.Provider>
   );
 };

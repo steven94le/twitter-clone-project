@@ -4,14 +4,13 @@ import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import ErrorPage from "./ErrorPage";
 
-const SmallTweet = ({ userFeed, isPending, error }) => {
+const SmallTweet = ({ userFeed, feedPending, feedError }) => {
   return userFeed?.tweetIds.map((tweetId, index) => {
     const tweet = userFeed.tweetsById[tweetId];
     // console.log("tweet", tweet);
 
-    return !isPending ? (
+    return userFeed ? (
       <Wrapper key={`${tweetId.id}-${index}`}>
         <StyledLink to={`/tweet/${tweetId}`}>
           <TweetHeader>
@@ -36,10 +35,7 @@ const SmallTweet = ({ userFeed, isPending, error }) => {
         <TweetActions />
       </Wrapper>
     ) : (
-      <>
-        {isPending && <p>SmallTweet Loading...</p>}
-        {error && <ErrorPage />}
-      </>
+      <>{feedPending && <p>SmallTweet Loading...</p>}</>
     );
   });
 };
