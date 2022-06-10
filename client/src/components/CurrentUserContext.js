@@ -6,7 +6,6 @@ export const CurrentUserContext = createContext(null);
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserPending, setCurrentUserPending] = useState(true);
-  const [currentUserError, setCurrentUserError] = useState(null);
 
   const history = useHistory();
 
@@ -21,20 +20,16 @@ export const CurrentUserProvider = ({ children }) => {
       .then((data) => {
         setCurrentUser(data);
         setCurrentUserPending(false);
-        setCurrentUserError(null);
       })
-      .catch((err) => {
+      .catch(() => {
         setCurrentUserPending(false);
-        setCurrentUserError(err.message);
         history.push("/error");
       });
   }, [history]);
   //   console.log(currentUser);
 
   return (
-    <CurrentUserContext.Provider
-      value={{ currentUser, currentUserPending, currentUserError }}
-    >
+    <CurrentUserContext.Provider value={{ currentUser, currentUserPending }}>
       {children}
     </CurrentUserContext.Provider>
   );

@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import SmallTweet from "./SmallTweet";
 
 import { useHistory } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Profile = () => {
   // const { currentUser } = useContext(CurrentUserContext);
@@ -14,7 +15,6 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [userFeed, setUserFeed] = useState(null);
   const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
 
   const history = useHistory();
 
@@ -30,11 +30,9 @@ const Profile = () => {
       .then((data) => {
         setUser(data);
         setIsPending(false);
-        setError(null);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsPending(false);
-        setError(err.message);
         history.push("/error");
       });
   }, [profileId, history]);
@@ -52,11 +50,9 @@ const Profile = () => {
       .then((data) => {
         setUserFeed(data);
         setIsPending(false);
-        setError(null);
       })
       .catch((err) => {
         setIsPending(false);
-        setError(err.message);
         history.push("/error");
       });
   }, [profileId, history]);
@@ -95,14 +91,21 @@ const Profile = () => {
         <div>Media</div>
         <div>Likes</div>
       </>
-      <SmallTweet
-        userFeed={userFeed}
-        feedPending={isPending}
-        feedError={error}
-      />
+      <SmallTweet userFeed={userFeed} feedPending={isPending} />
     </Wrapper>
   ) : (
-    <>{isPending && <p>Profile Loading...</p>}</>
+    <>
+      {isPending && (
+        <CircularProgress
+          style={{
+            color: "blue",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+          }}
+        />
+      )}
+    </>
   );
 };
 

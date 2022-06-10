@@ -5,37 +5,36 @@ import TweetActions from "./TweetActions";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
-const SmallTweet = ({ userFeed, feedPending, feedError }) => {
+const SmallTweet = ({ userFeed, feedPending }) => {
   return userFeed?.tweetIds.map((tweetId, index) => {
-    const tweet = userFeed.tweetsById[tweetId];
-    // console.log("tweet", tweet);
+    const tweet = userFeed?.tweetsById[tweetId];
 
-    return userFeed ? (
-      <Wrapper key={`${tweetId.id}-${index}`}>
-        <StyledLink to={`/tweet/${tweetId}`}>
-          <TweetHeader>
-            <TweetAvatar src={tweet.author.avatarSrc} />
-            <TweetDisplayName to={`/profile/${tweet.author.handle}`}>
-              {tweet.author.displayName}
-            </TweetDisplayName>
-            <div>@{tweet.author.handle}</div>
-            <div>{format(new Date(tweet.timestamp), "MMM do")}</div>
-          </TweetHeader>
-          <TweetContent>
-            <div>{tweet.status}</div>
-            {tweet.media[0] ? (
-              <TweetImg
-                src={tweet.media[0].url}
-                size={"24px"}
-                alt="cat pic tweet"
-              />
-            ) : null}
-          </TweetContent>
-        </StyledLink>
-        <TweetActions />
-      </Wrapper>
-    ) : (
-      <>{feedPending && <p>SmallTweet Loading...</p>}</>
+    return (
+      userFeed && (
+        <Wrapper key={`${tweetId.id}-${index}`}>
+          <StyledLink to={`/tweet/${tweetId}`}>
+            <TweetHeader>
+              <TweetAvatar src={tweet.author.avatarSrc} />
+              <TweetDisplayName to={`/profile/${tweet.author.handle}`}>
+                {tweet.author.displayName}
+              </TweetDisplayName>
+              <div>@{tweet.author.handle}</div>
+              <div>{format(new Date(tweet.timestamp), "MMM do")}</div>
+            </TweetHeader>
+            <TweetContent>
+              <div>{tweet.status}</div>
+              {tweet.media[0] ? (
+                <TweetImg
+                  src={tweet.media[0].url}
+                  size={"24px"}
+                  alt="cat pic tweet"
+                />
+              ) : null}
+            </TweetContent>
+          </StyledLink>
+          <TweetActions />
+        </Wrapper>
+      )
     );
   });
 };

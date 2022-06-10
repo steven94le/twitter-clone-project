@@ -3,8 +3,9 @@ import styled from "styled-components";
 import TweetActions from "./TweetActions";
 import { useHistory } from "react-router-dom";
 import { format } from "date-fns";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const BigTweet = ({ tweet, isPending, error }) => {
+const BigTweet = ({ tweet, isPending }) => {
   const history = useHistory();
   const handleClick = () => {
     history.push("/");
@@ -34,7 +35,18 @@ const BigTweet = ({ tweet, isPending, error }) => {
       <TweetActions />
     </>
   ) : (
-    <>{isPending && <StyledLoadPara>BigTweet Loading...</StyledLoadPara>}</>
+    <>
+      {isPending && (
+        <CircularProgress
+          style={{
+            color: "blue",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+          }}
+        />
+      )}
+    </>
   );
 };
 
@@ -57,13 +69,6 @@ const TweetImg = styled.img`
 
 const TweetContent = styled.div`
   margin: -20px 0 0 60px;
-`;
-
-const StyledLoadPara = styled.p`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 export default BigTweet;

@@ -6,7 +6,6 @@ export const HomeFeedContext = createContext(null);
 export const HomeFeedProvider = ({ children }) => {
   const [feed, setFeed] = useState(null);
   const [feedPending, setFeedPending] = useState(true);
-  const [feedError, setFeedError] = useState(null);
 
   const history = useHistory();
 
@@ -22,18 +21,16 @@ export const HomeFeedProvider = ({ children }) => {
       .then((data) => {
         setFeed(data);
         setFeedPending(false);
-        setFeedError(null);
       })
-      .catch((err) => {
+      .catch(() => {
         setFeedPending(false);
-        setFeedError(err.message);
         history.push("/error");
       });
   }, [history]);
 
   return (
     <div>
-      <HomeFeedContext.Provider value={{ feed, feedPending, feedError }}>
+      <HomeFeedContext.Provider value={{ feed, feedPending }}>
         {children}
       </HomeFeedContext.Provider>
     </div>

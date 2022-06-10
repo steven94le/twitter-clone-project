@@ -4,24 +4,47 @@ import { CurrentUserContext } from "./CurrentUserContext";
 import TextArea from "./TextArea";
 
 import SmallTweet from "./SmallTweet";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const HomeFeed = () => {
-  const { feed, feedPending, feedError } = useContext(HomeFeedContext);
+  const { feed, feedPending } = useContext(HomeFeedContext);
   const { currentUser, currentUserPending } = useContext(CurrentUserContext);
 
   return currentUser ? (
     <>
-      <div>Home</div>
+      <h2>Home</h2>
       <div>User Avatar</div>
       <TextArea />
-      <SmallTweet
-        userFeed={feed}
-        feedPending={feedPending}
-        feedError={feedError}
-      />
+      {feed ? (
+        <SmallTweet userFeed={feed} feedPending={feedPending} />
+      ) : (
+        <>
+          {feedPending && (
+            <CircularProgress
+              style={{
+                color: "blue",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+              }}
+            />
+          )}
+        </>
+      )}
     </>
   ) : (
-    <>{currentUserPending && <p>Current User Loading...</p>}</>
+    <>
+      {currentUserPending && (
+        <CircularProgress
+          style={{
+            color: "blue",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+          }}
+        />
+      )}
+    </>
   );
 };
 
