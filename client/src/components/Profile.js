@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import { GoLocation, GoCalendar } from "react-icons/go";
 import { useParams, useHistory } from "react-router-dom";
-import SmallTweet from "./SmallTweet";
+import TweetFeed from "./TweetFeed";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -88,7 +88,7 @@ const Profile = () => {
       </>
 
       {userFeed ? (
-        <SmallTweet userFeed={userFeed} feedPending={userFeedPending} />
+        <TweetFeed userFeed={userFeed} feedPending={userFeedPending} />
       ) : (
         <>
           {userFeedPending && (

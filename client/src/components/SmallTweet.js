@@ -4,49 +4,46 @@ import TweetActions from "./TweetActions";
 import { Link, useHistory } from "react-router-dom";
 import { format } from "date-fns";
 
-const SmallTweet = ({ userFeed }) => {
+const SmallTweet = ({ props }) => {
+  const { userFeed, tweetId, index, tweet } = props;
   const history = useHistory();
 
-  return userFeed?.tweetIds.map((tweetId, index) => {
-    const tweet = userFeed?.tweetsById[tweetId];
+  const handleClick = (ev) => {
+    history.push(`/tweet/${tweetId}`);
+    ev.stopPropagation();
+  };
 
-    const handleClick = (ev) => {
-      history.push(`/tweet/${tweetId}`);
-      ev.stopPropagation();
-    };
+  return (
+    userFeed && (
+      <Wrapper key={`${tweetId.id}-${index}`}>
+        <div onClick={handleClick}>
+          <TweetHeader>
+            <TweetAvatar src={tweet.author.avatarSrc} />
 
-    return (
-      userFeed && (
-        <Wrapper key={`${tweetId.id}-${index}`}>
-          <div onClick={handleClick}>
-            <TweetHeader>
-              <TweetAvatar src={tweet.author.avatarSrc} />
-
-              <TweetDisplayName
-                to={`/profile/${tweet.author.handle}`}
-                onClick={(ev) => ev.stopPropagation()}
-              >
-                {tweet.author.displayName}
-              </TweetDisplayName>
-              <div>@{tweet.author.handle}</div>
-              <div>{format(new Date(tweet.timestamp), "MMM do")}</div>
-            </TweetHeader>
-            <TweetContent>
-              <div>{tweet.status}</div>
-              {tweet.media[0] ? (
-                <TweetImg
-                  src={tweet.media[0].url}
-                  size={"24px"}
-                  alt="cat pic tweet"
-                />
-              ) : null}
-            </TweetContent>
-          </div>
-          <TweetActions />
-        </Wrapper>
-      )
-    );
-  });
+            <TweetDisplayName
+              to={`/profile/${tweet.author.handle}`}
+              onClick={(ev) => ev.stopPropagation()}
+            >
+              {tweet.author.displayName}
+            </TweetDisplayName>
+            <div>@{tweet.author.handle}</div>
+            <div>{format(new Date(tweet.timestamp), "MMM do")}</div>
+          </TweetHeader>
+          <TweetContent>
+            <div>{tweet.status}</div>
+            {tweet.media[0] ? (
+              <TweetImg
+                src={tweet.media[0].url}
+                size={"24px"}
+                alt="cat pic tweet"
+              />
+            ) : null}
+          </TweetContent>
+        </div>
+        <TweetActions />
+      </Wrapper>
+    )
+  );
 };
 
 const Wrapper = styled.div`

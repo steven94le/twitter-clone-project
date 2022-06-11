@@ -3,7 +3,7 @@ import { HomeFeedContext } from "./HomeFeedContext";
 import { CurrentUserContext } from "./CurrentUserContext";
 import TextArea from "./TextArea";
 
-import SmallTweet from "./SmallTweet";
+import TweetFeed from "./TweetFeed";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useHistory } from "react-router-dom";
 
@@ -24,7 +24,7 @@ const HomeFeed = () => {
       <div>User Avatar</div>
       <TextArea />
       {feed ? (
-        <SmallTweet userFeed={feed} feedPending={feedPending} />
+        <TweetFeed userFeed={feed} feedPending={feedPending} />
       ) : (
         <>
           {feedPending && (
