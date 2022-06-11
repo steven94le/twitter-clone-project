@@ -2,20 +2,16 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
 import { GoLocation, GoCalendar } from "react-icons/go";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import SmallTweet from "./SmallTweet";
 
-import { useHistory } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Profile = () => {
-  // const { currentUser } = useContext(CurrentUserContext);
-  // console.log("currentUser", currentUser);
   const { profileId } = useParams();
   const [user, setUser] = useState(null);
   const [userFeed, setUserFeed] = useState(null);
-  const [isPending, setIsPending] = useState(true);
-
+  const [profilePending, setProfilePending] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
@@ -23,36 +19,34 @@ const Profile = () => {
       .then((res) => {
         // console.log("profile res", res);
         if (!res.ok) {
-          throw Error("Could not fetch data");
+          throw Error("Could not fetch profile data");
         }
         return res.json();
       })
       .then((data) => {
         setUser(data);
-        setIsPending(false);
+        setProfilePending(false);
       })
       .catch(() => {
-        setIsPending(false);
+        setProfilePending(false);
         history.push("/error");
       });
   }, [profileId, history]);
-
-  // console.log("user", user);
 
   useEffect(() => {
     fetch(`/api/${profileId}/feed`)
       .then((res) => {
         if (!res.ok) {
-          throw Error("Could not fetch data");
+          throw Error("Could not fetch profile feed data");
         }
         return res.json();
       })
       .then((data) => {
         setUserFeed(data);
-        setIsPending(false);
+        setProfilePending(false);
       })
-      .catch((err) => {
-        setIsPending(false);
+      .catch(() => {
+        setProfilePending(false);
         history.push("/error");
       });
   }, [profileId, history]);
@@ -91,11 +85,11 @@ const Profile = () => {
         <div>Media</div>
         <div>Likes</div>
       </>
-      <SmallTweet userFeed={userFeed} feedPending={isPending} />
+      <SmallTweet userFeed={userFeed} feedPending={profilePending} />
     </Wrapper>
   ) : (
     <>
-      {isPending && (
+      {profilePending && (
         <CircularProgress
           style={{
             color: "blue",

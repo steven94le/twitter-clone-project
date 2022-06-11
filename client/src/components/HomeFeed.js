@@ -5,10 +5,18 @@ import TextArea from "./TextArea";
 
 import SmallTweet from "./SmallTweet";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useHistory } from "react-router-dom";
 
 const HomeFeed = () => {
-  const { feed, feedPending } = useContext(HomeFeedContext);
-  const { currentUser, currentUserPending } = useContext(CurrentUserContext);
+  const { feed, feedPending, feedError } = useContext(HomeFeedContext);
+  const { currentUser, currentUserPending, currentUserError } =
+    useContext(CurrentUserContext);
+
+  const history = useHistory();
+
+  if (currentUserError || feedError === true) {
+    history?.push("/error");
+  }
 
   return currentUser ? (
     <>
