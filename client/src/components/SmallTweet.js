@@ -1,21 +1,31 @@
 import React from "react";
-
 import styled from "styled-components";
 import TweetActions from "./TweetActions";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { format } from "date-fns";
 
-const SmallTweet = ({ userFeed, feedPending }) => {
+const SmallTweet = ({ userFeed }) => {
+  const history = useHistory();
+
   return userFeed?.tweetIds.map((tweetId, index) => {
     const tweet = userFeed?.tweetsById[tweetId];
+
+    const handleClick = (ev) => {
+      history.push(`/tweet/${tweetId}`);
+      ev.stopPropagation();
+    };
 
     return (
       userFeed && (
         <Wrapper key={`${tweetId.id}-${index}`}>
-          <StyledLink to={`/tweet/${tweetId}`}>
+          <div onClick={handleClick}>
             <TweetHeader>
               <TweetAvatar src={tweet.author.avatarSrc} />
-              <TweetDisplayName to={`/profile/${tweet.author.handle}`}>
+
+              <TweetDisplayName
+                to={`/profile/${tweet.author.handle}`}
+                onClick={(ev) => ev.stopPropagation()}
+              >
                 {tweet.author.displayName}
               </TweetDisplayName>
               <div>@{tweet.author.handle}</div>
@@ -31,7 +41,7 @@ const SmallTweet = ({ userFeed, feedPending }) => {
                 />
               ) : null}
             </TweetContent>
-          </StyledLink>
+          </div>
           <TweetActions />
         </Wrapper>
       )
@@ -45,11 +55,6 @@ const Wrapper = styled.div`
   &:hover {
     cursor: pointer;
   }
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: black;
 `;
 
 const TweetHeader = styled.header`

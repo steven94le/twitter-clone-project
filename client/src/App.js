@@ -19,12 +19,24 @@ const App = () => {
         <Router>
           <Sidebar />
           <Switch>
-            <Route exact path="/" component={HomeFeed} />
-            <Route exact path="/notifications" component={Notifications} />
-            <Route exact path="/bookmarks" component={Bookmarks} />
-            <Route exact path="/tweet/:tweetId" component={TweetDetails} />
-            <Route exact path="/error" component={ErrorPage} />
-            <Route exact path="/profile/:profileId" component={Profile} />
+            <Route exact path="/">
+              <HomeFeed />
+            </Route>
+            <Route exact path="/notifications">
+              <Notifications />
+            </Route>
+            <Route exact path="/bookmarks">
+              <Bookmarks />
+            </Route>
+            <Route exact path="/tweet/:tweetId">
+              <TweetDetails />
+            </Route>
+            <Route exact path="/error">
+              <ErrorPage />
+            </Route>
+            <Route exact path="/profile/:profileId">
+              <Profile />
+            </Route>
           </Switch>
         </Router>
       </StyledDiv>
