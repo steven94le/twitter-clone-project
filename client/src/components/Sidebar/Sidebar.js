@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import catLogoSvg from "../assets/logo.svg";
-import { COLORS } from "../constants";
+import catLogoSvg from "../../assets/logo.svg";
+import { COLORS } from "../../constants";
 import { FiHome, FiUser, FiBell, FiBookmark } from "react-icons/fi";
-import { CurrentUserContext } from "./CurrentUserContext";
+import { CurrentUserContext } from "../CurrentUserContext";
 
 const Sidebar = () => {
   const { currentUser } = useContext(CurrentUserContext);

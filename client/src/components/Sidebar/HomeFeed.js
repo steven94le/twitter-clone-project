@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { HomeFeedContext } from "./HomeFeedContext";
-import { CurrentUserContext } from "./CurrentUserContext";
-import TextArea from "./TextArea";
+import { HomeFeedContext } from "../HomeFeedContext";
+import { CurrentUserContext } from "../CurrentUserContext";
+import TextArea from "../TweetActions/TextArea";
 
-import TweetFeed from "./TweetFeed";
+import TweetFeed from "../Tweets/TweetFeed";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useHistory } from "react-router-dom";
 

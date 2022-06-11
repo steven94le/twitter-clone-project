@@ -1,15 +1,15 @@
 import React from "react";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "./components/GlobalStyles";
 
-import HomeFeed from "./components/HomeFeed";
-import Notifications from "./components/Notifications";
-import Bookmarks from "./components/Bookmarks";
-import TweetDetails from "./components/TweetDetails";
-import Profile from "./components/Profile";
-import ErrorPage from "./components/ErrorPage";
+import HomeFeed from "./components/Sidebar/HomeFeed";
+import Notifications from "./components/Sidebar/Notifications";
+import Bookmarks from "./components/Sidebar/Bookmarks";
+import TweetDetails from "./components/Tweets/TweetDetails";
+import Profile from "./components/Sidebar/Profile";
+import ErrorPage from "./components/Sidebar/ErrorPage";
 
 const App = () => {
   return (

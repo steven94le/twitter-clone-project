@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { COLORS } from "../constants";
+import { COLORS } from "../../constants";
 
 const TextArea = () => {
   const [tweetState, setTweetState] = useState("");

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import { GoLocation, GoCalendar } from "react-icons/go";
 import { useParams, useHistory } from "react-router-dom";
-import TweetFeed from "./TweetFeed";
+import TweetFeed from "../Tweets/TweetFeed";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 

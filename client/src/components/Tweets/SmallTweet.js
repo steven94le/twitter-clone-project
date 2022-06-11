@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import TweetActions from "./TweetActions";
+import TweetActions from "../TweetActions/TweetActions";
 import { Link, useHistory } from "react-router-dom";
 import { format } from "date-fns";
 

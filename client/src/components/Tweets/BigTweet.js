@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import TweetActions from "./TweetActions";
+import TweetActions from "../TweetActions/TweetActions";
 import { useHistory } from "react-router-dom";
 import { format } from "date-fns";
 import CircularProgress from "@material-ui/core/CircularProgress";
