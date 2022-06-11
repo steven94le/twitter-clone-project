@@ -11,7 +11,8 @@ const Profile = () => {
   const { profileId } = useParams();
   const [user, setUser] = useState(null);
   const [userFeed, setUserFeed] = useState(null);
-  const [profilePending, setProfilePending] = useState(true);
+  const [userPending, setUserPending] = useState(true);
+  const [userFeedPending, setUserFeedPending] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
@@ -25,10 +26,10 @@ const Profile = () => {
       })
       .then((data) => {
         setUser(data);
-        setProfilePending(false);
+        setUserPending(false);
       })
       .catch(() => {
-        setProfilePending(false);
+        setUserPending(false);
         history.push("/error");
       });
   }, [profileId, history]);
@@ -43,15 +44,15 @@ const Profile = () => {
       })
       .then((data) => {
         setUserFeed(data);
-        setProfilePending(false);
+        setUserFeedPending(false);
       })
       .catch(() => {
-        setProfilePending(false);
+        setUserFeedPending(false);
         history.push("/error");
       });
   }, [profileId, history]);
 
-  return user && userFeed ? (
+  return user ? (
     <Wrapper>
       <Banner src={user.profile.bannerSrc} alt="banner" />
       <>
@@ -85,11 +86,27 @@ const Profile = () => {
         <div>Media</div>
         <div>Likes</div>
       </>
-      <SmallTweet userFeed={userFeed} feedPending={profilePending} />
+
+      {userFeed ? (
+        <SmallTweet userFeed={userFeed} feedPending={userFeedPending} />
+      ) : (
+        <>
+          {userFeedPending && (
+            <CircularProgress
+              style={{
+                color: "blue",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+              }}
+            />
+          )}
+        </>
+      )}
     </Wrapper>
   ) : (
     <>
-      {profilePending && (
+      {userPending && (
         <CircularProgress
           style={{
             color: "blue",
@@ -102,8 +119,6 @@ const Profile = () => {
     </>
   );
 };
-
-export default Profile;
 
 const Wrapper = styled.div`
   width: 500px;
@@ -143,3 +158,5 @@ const FollowsYou = styled.p`
 const Bio = styled.div`
   padding: 10px 0 10px 0;
 `;
+
+export default Profile;
