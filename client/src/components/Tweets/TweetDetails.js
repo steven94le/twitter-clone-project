@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
+//components
 import BigTweet from "./BigTweet";
 
 const TweetDetails = () => {
@@ -11,15 +13,12 @@ const TweetDetails = () => {
   useEffect(() => {
     fetch(`/api/tweet/${tweetId}`)
       .then((res) => {
-        // console.log("tweet res", res);
         if (!res.ok) {
           throw Error("Could not fetch data");
         }
         return res.json();
       })
       .then((data) => {
-        // console.log(data);
-        // console.log(data.tweet);
         setTweet(data.tweet);
         setIsPending(false);
         setError(null);

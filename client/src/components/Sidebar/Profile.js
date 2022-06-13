@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { format } from "date-fns";
-import { GoLocation, GoCalendar } from "react-icons/go";
 import { useParams, useHistory } from "react-router-dom";
+
+//components
 import TweetFeed from "../Tweets/TweetFeed";
 
+//logos, styles
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { GoLocation, GoCalendar } from "react-icons/go";
+import styled from "styled-components";
+import { format } from "date-fns";
+import { COLORS } from "../../constants";
 
 const Profile = () => {
   const { profileId } = useParams();
@@ -18,7 +22,6 @@ const Profile = () => {
   useEffect(() => {
     fetch(`/api/${profileId}/profile`)
       .then((res) => {
-        // console.log("profile res", res);
         if (!res.ok) {
           throw Error("Could not fetch profile data");
         }
@@ -55,37 +58,37 @@ const Profile = () => {
   return user ? (
     <Wrapper>
       <Banner src={user.profile.bannerSrc} alt="banner" />
-      <>
-        <Avatar src={user.profile.avatarSrc} alt="avatar" />
-      </>
-      {user.profile.isBeingFollowedByYou ? (
-        <Following>Following</Following>
-      ) : null}
-      <DisplayName>{user.profile.displayName}</DisplayName>
-      <Handle>@{user.profile.handle}</Handle>
+      <ProfileSection>
+        <>
+          <Avatar src={user.profile.avatarSrc} alt="avatar" />
+        </>
+        {user.profile.isBeingFollowedByYou ? (
+          <Following>Following</Following>
+        ) : null}
+        <DisplayName>{user.profile.displayName}</DisplayName>
+        <HandleLine>
+          <Handle>@{user.profile.handle}</Handle>
 
-      {user.profile.isFollowingYou ? (
-        <FollowsYou>"Follows You"</FollowsYou>
-      ) : null}
+          {user.profile.isFollowingYou ? (
+            <FollowsYou>Follows You</FollowsYou>
+          ) : null}
+        </HandleLine>
 
-      <Bio>{user.profile.bio}</Bio>
-      <div>
-        <GoLocation />
-        {user.profile.location}
-        <div>
-          <GoCalendar />
-          Joined {format(new Date(user.profile.joined), "MMMM yyyy")}
-        </div>
-      </div>
-      <div>
-        {user.profile.numFollowing} Following {user.profile.numFollowers}{" "}
-        Followers
-      </div>
-      <>
-        <div>Tweet</div>
-        <div>Media</div>
-        <div>Likes</div>
-      </>
+        <Bio>{user.profile.bio}</Bio>
+        <GeoDate>
+          <GoLocation /> {user.profile.location} <GoCalendar /> Joined{" "}
+          {format(new Date(user.profile.joined), "MMMM yyyy")}
+        </GeoDate>
+        <TweetMetrics>
+          <MetricNumber>{user.profile.numFollowing}</MetricNumber> Following{" "}
+          <MetricNumber>{user.profile.numFollowers} </MetricNumber>Followers
+        </TweetMetrics>
+        <TweetActivity>
+          <TweetTab>Tweet</TweetTab>
+          <MediaTab>Media</MediaTab>
+          <LikesTab>Likes</LikesTab>
+        </TweetActivity>
+      </ProfileSection>
 
       {userFeed ? (
         <TweetFeed userFeed={userFeed} feedPending={userFeedPending} />
@@ -121,10 +124,18 @@ const Profile = () => {
 };
 
 const Wrapper = styled.div`
-  width: 500px;
+  width: 75%;
 `;
+
+const ProfileSection = styled.div`
+  margin: -5px 0 0 -28px;
+  border: lightgrey solid 0.1px;
+  padding: 20px;
+`;
+
 const Banner = styled.img`
-  height: 200px;
+  width: 103.5%;
+  margin-left: -28px;
 `;
 
 const Avatar = styled.img`
@@ -133,17 +144,27 @@ const Avatar = styled.img`
   width: 100px;
   border: 2px solid white;
   margin-top: -60px;
-  margin-left: 20px;
 `;
 
 const Following = styled.button`
-  border-radius: 15px;
+  border-radius: 20px;
   color: white;
-  background-color: purple;
+  background-color: ${COLORS.primary};
+  position: absolute;
+  left: 70%;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  width: 90px;
 `;
 
 const DisplayName = styled.div`
   font-weight: bold;
+  padding-top: 10px;
+`;
+
+const HandleLine = styled.div`
+  display: flex;
 `;
 
 const Handle = styled.div`
@@ -151,12 +172,76 @@ const Handle = styled.div`
 `;
 
 const FollowsYou = styled.p`
-  background-color: grey;
+  background-color: lightgrey;
+  width: 75px;
+  height: 15px;
+  margin: 3px 0 0 10px;
+  font-size: 12px;
+  padding: 1px;
   border-radius: 10px;
+  text-align: center;
+  color: grey;
 `;
 
 const Bio = styled.div`
   padding: 10px 0 10px 0;
+`;
+
+const GeoDate = styled.div`
+  display: inline;
+  & :not(:first-child) {
+    margin-left: 20px;
+  }
+`;
+
+const TweetMetrics = styled.div`
+  padding: 10px 0 0 0;
+  & :not(:first-child) {
+    margin-left: 20px;
+  }
+`;
+
+const MetricNumber = styled.span`
+  font-weight: bold;
+`;
+
+const TweetActivity = styled.div`
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-around;
+  & :not(:first-child) {
+    color: grey;
+  }
+`;
+const TweetTab = styled.button`
+  color: ${COLORS.primary};
+  border: none;
+  background: none;
+  font-size: 16px;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const MediaTab = styled.button`
+  border: none;
+  background: none;
+  font-size: 16px;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const LikesTab = styled.button`
+  border: none;
+  background: none;
+  font-size: 16px;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default Profile;

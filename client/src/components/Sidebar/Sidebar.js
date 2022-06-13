@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import catLogoSvg from "../../assets/logo.svg";
-import { COLORS } from "../../constants";
-import { FiHome, FiUser, FiBell, FiBookmark } from "react-icons/fi";
+
+//context
 import { CurrentUserContext } from "../CurrentUserContext";
+
+//logos, styles
+import styled from "styled-components";
+import { COLORS } from "../../constants";
+import catLogoSvg from "../../assets/logo.svg";
+import { FiHome, FiUser, FiBell, FiBookmark } from "react-icons/fi";
 
 const Sidebar = () => {
   const { currentUser } = useContext(CurrentUserContext);
@@ -12,8 +16,8 @@ const Sidebar = () => {
   return (
     <StyledDiv>
       <StyledNav>
-        <StyledCatLogo src={catLogoSvg} alt="twitter cat logo" />
         <NavBarList>
+          <StyledCatLogo src={catLogoSvg} alt="twitter cat logo" />
           <NavBarItem>
             <StyledLink exact to="/">
               <FiHome size={"24px"} style={{ paddingRight: "20px" }} />
@@ -47,42 +51,44 @@ const Sidebar = () => {
 const StyledDiv = styled.div`
   position: fixed;
   height: 100%;
-  width: 160px;
+  width: 280px;
   top: 0;
   left: 0;
+  border-right: lightgrey solid 0.1px;
 `;
 
 const StyledNav = styled.nav`
-  margin: 20px 0 0 80px;
+  margin: 20px 0 0 60px;
 `;
 
 const StyledCatLogo = styled.img`
-  margin-left: 20px;
+  margin-left: -20px;
   height: 75px;
   width: 75px;
 `;
 
 const NavBarList = styled.ul`
   list-style-type: none;
+  font-weight: bold;
 `;
 
 const NavBarItem = styled.li`
   padding: 15px 0 15px 0;
-  width: 150px;
+  width: 200px;
 `;
 
 const StyledLink = styled(NavLink)`
   text-decoration: none;
   color: black;
+  padding: 15px;
+  border-radius: 25px;
 
-  &.active,
-  &:hover {
+  &.active {
     color: ${COLORS.primary};
   }
 
   &:hover {
-    background-color: pink;
-    border-radius: 10px;
+    background-color: lavender;
   }
 `;
 

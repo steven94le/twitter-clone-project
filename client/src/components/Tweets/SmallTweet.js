@@ -1,11 +1,15 @@
 import React from "react";
-import styled from "styled-components";
-import TweetActions from "../TweetActions/TweetActions";
 import { Link, useHistory } from "react-router-dom";
+
+//components
+import TweetActions from "../TweetActions/TweetActions";
+
+//styles
+import styled from "styled-components";
 import { format } from "date-fns";
 
 const SmallTweet = ({ props }) => {
-  const { userFeed, tweetId, index, tweet } = props;
+  const { userFeed, tweetId, tweet } = props;
   const history = useHistory();
 
   const handleClick = (ev) => {
@@ -15,18 +19,18 @@ const SmallTweet = ({ props }) => {
 
   return (
     userFeed && (
-      <Wrapper key={`${tweetId.id}-${index}`}>
+      <Wrapper>
         <div onClick={handleClick}>
           <TweetHeader>
             <TweetAvatar src={tweet.author.avatarSrc} />
-
             <TweetDisplayName
               to={`/profile/${tweet.author.handle}`}
               onClick={(ev) => ev.stopPropagation()}
             >
               {tweet.author.displayName}
             </TweetDisplayName>
-            <div>@{tweet.author.handle}</div>
+            <div> @{tweet.author.handle} </div>
+            <span> {"·"}</span>
             <div>{format(new Date(tweet.timestamp), "MMM do")}</div>
           </TweetHeader>
           <TweetContent>
@@ -47,8 +51,10 @@ const SmallTweet = ({ props }) => {
 };
 
 const Wrapper = styled.div`
-  margin-bottom: 30px;
+  margin-left: -28px;
+  padding: 20px 20px 0 20px;
   color: black;
+  border: lightgrey solid 0.1px;
   &:hover {
     cursor: pointer;
   }
@@ -56,6 +62,9 @@ const Wrapper = styled.div`
 
 const TweetHeader = styled.header`
   display: flex;
+  & :not(:first-child) {
+    margin-right: 5px;
+  }
 `;
 const TweetAvatar = styled.img`
   width: 50px;
@@ -76,9 +85,8 @@ const TweetDisplayName = styled(Link)`
 `;
 
 const TweetImg = styled.img`
-  width: 75%;
-  height: 75%;
-  margin-top: 10px;
+  width: 95%;
+  margin-top: 20px;
   border-radius: 15px;
 `;
 

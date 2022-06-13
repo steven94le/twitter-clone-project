@@ -1,6 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+
+//logos, styles
 import { FiMessageCircle, FiRepeat, FiHeart, FiShare } from "react-icons/fi";
+import styled from "styled-components";
 
 const TweetActions = () => {
   return (
@@ -14,11 +16,10 @@ const TweetActions = () => {
 };
 
 const Wrapper = styled.div`
-  margin: 20px 0 10px 60px;
-  width: 500px;
+  margin: 30px 0 10px 60px;
 
   & :not(:first-child) {
-    margin-left: 75px;
+    margin-left: 20%;
   }
 `;
 

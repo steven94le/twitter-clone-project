@@ -1,26 +1,37 @@
 import React from "react";
-import styled from "styled-components";
-import TweetActions from "../TweetActions/TweetActions";
 import { useHistory } from "react-router-dom";
-import { format } from "date-fns";
+
+//components
+import TweetActions from "../TweetActions/TweetActions";
+
+//logo, styles
 import CircularProgress from "@material-ui/core/CircularProgress";
+import styled from "styled-components";
+import { format } from "date-fns";
+import { FiArrowLeft } from "react-icons/fi";
 
 const BigTweet = ({ tweet, isPending }) => {
   const history = useHistory();
+
   const handleClick = () => {
     history.push("/");
   };
 
   return tweet ? (
-    <>
-      <button onClick={handleClick}>Go Back</button>
-      <TweetHeader>
-        <TweetAvatar src={tweet.author.avatarSrc} />
-        <div>{tweet.author.displayName}</div>
-        <div>@{tweet.author.handle}</div>
-      </TweetHeader>
+    <Wrapper>
+      <PageHeader>
+        <StyledBackButton>
+          <FiArrowLeft size={"20px"} onClick={handleClick} />
+        </StyledBackButton>
+        <StyledTitle>Meow</StyledTitle>
+      </PageHeader>
+      <TweetAvatar src={tweet.author.avatarSrc} />
+      <TweetUserName>
+        <TweetDisplayName>{tweet.author.displayName}</TweetDisplayName>
+        <TweetHandle>@{tweet.author.handle}</TweetHandle>
+      </TweetUserName>
       <TweetContent>
-        <div>{tweet.status}</div>
+        <TweetText>{tweet.status}</TweetText>
         {tweet.media[0] ? (
           <TweetImg
             src={tweet.media[0].url}
@@ -28,12 +39,13 @@ const BigTweet = ({ tweet, isPending }) => {
             alt="cat pic tweet"
           />
         ) : null}
-        <div>
-          {format(new Date(tweet.timestamp), "p - MMM d YYY")} - Critter web app
-        </div>
+        <TweetTimeStamp>
+          {format(new Date(tweet.timestamp), "p · MMM d YYY")} · Critter web app
+        </TweetTimeStamp>
+        <StyledHr />
       </TweetContent>
       <TweetActions />
-    </>
+    </Wrapper>
   ) : (
     <>
       {isPending && (
@@ -50,9 +62,34 @@ const BigTweet = ({ tweet, isPending }) => {
   );
 };
 
-const TweetHeader = styled.header`
-  display: flex;
+const Wrapper = styled.div`
+  margin: -20px 0 0 -28px;
+  padding: 20px;
+  width: 90%;
+  border: lightgrey solid 0.1px;
 `;
+
+const PageHeader = styled.div`
+  margin: -10px -20px 20px -20px;
+  border: lightgrey solid 0.1px;
+  padding: 15px;
+`;
+
+const StyledBackButton = styled.button`
+  border: none;
+  background: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const StyledTitle = styled.div`
+  position: absolute;
+  top: 0px;
+  margin: 15px 0 0 40px;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
 const TweetAvatar = styled.img`
   width: 50px;
   height: 50px;
@@ -60,15 +97,44 @@ const TweetAvatar = styled.img`
   padding-right: 10px;
 `;
 
-const TweetImg = styled.img`
-  width: 75%;
-  height: 75%;
-  margin-top: 10px;
-  border-radius: 15px;
+const TweetUserName = styled.header`
+  display: block;
+  margin: -50px 0 40px 60px;
+`;
+
+const TweetDisplayName = styled.div`
+  font-weight: bold;
+`;
+
+const TweetHandle = styled.div`
+  color: grey;
 `;
 
 const TweetContent = styled.div`
-  margin: -20px 0 0 60px;
+  margin: -15px 0 10px 0;
+`;
+
+const TweetText = styled.div`
+  font-size: 24px;
+`;
+
+const TweetImg = styled.img`
+  width: 100%;
+  margin: 20px 0 10px 0;
+  border-radius: 15px;
+`;
+
+const TweetTimeStamp = styled.div`
+  color: grey;
+
+  margin-top: 10px;
+`;
+
+const StyledHr = styled.hr`
+  margin-top: 20px;
+  height: 1px;
+  background-color: lightgrey;
+  border: none;
 `;
 
 export default BigTweet;

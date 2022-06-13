@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+
+//styles
 import { COLORS } from "../../constants";
+import styled from "styled-components";
 
 const TextArea = () => {
   const [tweetState, setTweetState] = useState("");
@@ -41,11 +43,11 @@ const TextArea = () => {
   };
 
   return (
-    <>
+    <Wrapper>
       <form onSubmit={handleSubmitTweet}>
         <TweetTextArea
           type="text"
-          placeholder="What's Happening"
+          placeholder="What's happening"
           value={tweetInput}
           onChange={handleOnChange}
         />
@@ -59,26 +61,37 @@ const TextArea = () => {
         </TweetAction>
       </form>
       <>{tweetState}</>
-    </>
+    </Wrapper>
   );
 };
 
+const Wrapper = styled.div`
+  border: lightgrey solid 0.1px;
+  border-bottom: lightgrey solid 10px;
+  margin-left: -28px;
+  padding: 10px 0 10px;
+`;
+
 const TweetTextArea = styled.textarea`
-  border: 1px solid grey;
   outline: none;
   resize: none;
-  width: 550px;
+  margin-left: 80px;
+  padding-top: 20px;
+  width: 85%;
   height: 100px;
+  border: none;
+  font-size: 18px;
+  font-family: sans-serif;
 `;
 
 const TweetAction = styled.div`
   display: flex;
   justify-content: right;
-  width: 550px;
+  width: 95%;
 `;
 
 const TweetCounter = styled.p`
-  padding: 5px 10px 0 0;
+  padding: 0px 10px 0 0;
 
   color: ${(props) =>
     0 <= props.charCounter && props.charCounter < props.charLimit
@@ -91,11 +104,15 @@ const TweetCounter = styled.p`
 const TweetButton = styled.button`
   background-color: ${COLORS.primary};
   color: white;
-  border-radius: 15px;
+  border-radius: 25px;
   font-size: 16px;
+  width: 75px;
+  height: 40px;
+  margin-top: 5px;
+  border: none;
 
   &:disabled {
-    background-color: grey;
+    opacity: 0.4;
   }
 `;
 

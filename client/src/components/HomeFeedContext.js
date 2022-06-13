@@ -26,10 +26,8 @@ export const HomeFeedProvider = ({ children }) => {
   }, []);
 
   return (
-    <div>
-      <HomeFeedContext.Provider value={{ feed, feedPending, feedError }}>
-        {children}
-      </HomeFeedContext.Provider>
-    </div>
+    <HomeFeedContext.Provider value={{ feed, feedPending, feedError }}>
+      {children}
+    </HomeFeedContext.Provider>
   );
 };
