@@ -57,7 +57,11 @@ const SmallTweet = ({ props }) => {
             ) : null}
           </TweetContent>
         </div>
-        <TweetActions numOfLikes={numOfLikes} onClickFunc={handleToggleLike} />
+        <TweetActions
+          numOfLikes={numOfLikes}
+          onClickFunc={handleToggleLike}
+          isLiked={isLiked}
+        />
       </Wrapper>
     )
   );

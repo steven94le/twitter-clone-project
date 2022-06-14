@@ -58,7 +58,11 @@ const BigTweet = ({ props }) => {
         </TweetTimeStamp>
         <StyledHr />
       </TweetContent>
-      <TweetActions numOfLikes={numOfLikes} onClickFunc={handleToggleLike} />
+      <TweetActions
+        numOfLikes={numOfLikes}
+        onClickFunc={handleToggleLike}
+        isLiked={isLiked}
+      />
     </Wrapper>
   ) : (
     <>
