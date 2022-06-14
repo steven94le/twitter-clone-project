@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 //components
@@ -10,10 +10,23 @@ import { format } from "date-fns";
 
 const SmallTweet = ({ props }) => {
   const { userFeed, tweetId, tweet } = props;
+  const [isLiked, setIsLiked] = useState(false);
+  const [numOfLikes, setNumOfLikes] = useState(tweet.numLikes);
+
   const history = useHistory();
 
   const handleClick = (ev) => {
     history.push(`/tweet/${tweetId}`);
+    ev.stopPropagation();
+  };
+
+  const handleToggleLike = (ev) => {
+    if (isLiked) {
+      setNumOfLikes(numOfLikes - 1);
+    } else {
+      setNumOfLikes(numOfLikes + 1);
+    }
+    setIsLiked(!isLiked);
     ev.stopPropagation();
   };
 
@@ -44,7 +57,7 @@ const SmallTweet = ({ props }) => {
             ) : null}
           </TweetContent>
         </div>
-        <TweetActions />
+        <TweetActions numOfLikes={numOfLikes} onClickFunc={handleToggleLike} />
       </Wrapper>
     )
   );

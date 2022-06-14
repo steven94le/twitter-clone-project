@@ -135,7 +135,7 @@ const ProfileSection = styled.div`
 
 const Banner = styled.img`
   width: 103.5%;
-  margin-left: -28px;
+  margin: -10px 0 0 -28px;
 `;
 
 const Avatar = styled.img`
@@ -206,7 +206,8 @@ const MetricNumber = styled.span`
 `;
 
 const TweetActivity = styled.div`
-  padding-top: 25px;
+  padding: 25px 0 25px 0;
+  margin: 0 -21px -20px -21px;
   display: flex;
   justify-content: space-around;
   & :not(:first-child) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //components
@@ -10,8 +10,22 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import { FiArrowLeft } from "react-icons/fi";
 
-const BigTweet = ({ tweet, isPending }) => {
+const BigTweet = ({ props }) => {
+  const { tweet, isPending } = props;
+  const [isLiked, setIsLiked] = useState(false);
+  const [numOfLikes, setNumOfLikes] = useState(0);
+
   const history = useHistory();
+
+  const handleToggleLike = (ev) => {
+    if (isLiked) {
+      setNumOfLikes(numOfLikes - 1);
+    } else {
+      setNumOfLikes(numOfLikes + 1);
+    }
+    setIsLiked(!isLiked);
+    ev.stopPropagation();
+  };
 
   const handleClick = () => {
     history.push("/");
@@ -44,7 +58,7 @@ const BigTweet = ({ tweet, isPending }) => {
         </TweetTimeStamp>
         <StyledHr />
       </TweetContent>
-      <TweetActions />
+      <TweetActions numOfLikes={numOfLikes} onClickFunc={handleToggleLike} />
     </Wrapper>
   ) : (
     <>

@@ -8,7 +8,6 @@ const TweetDetails = () => {
   const { tweetId } = useParams();
   const [tweet, setTweet] = useState(null);
   const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`/api/tweet/${tweetId}`)
@@ -21,17 +20,15 @@ const TweetDetails = () => {
       .then((data) => {
         setTweet(data.tweet);
         setIsPending(false);
-        setError(null);
       })
       .catch((err) => {
         setIsPending(false);
-        setError(err.message);
       });
   }, [tweetId]);
 
   return (
     <>
-      <BigTweet tweet={tweet} isPending={isPending} error={error} />
+      <BigTweet props={{ tweet, isPending }} />
     </>
   );
 };

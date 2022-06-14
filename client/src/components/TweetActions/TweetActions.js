@@ -4,12 +4,13 @@ import React from "react";
 import { FiMessageCircle, FiRepeat, FiHeart, FiShare } from "react-icons/fi";
 import styled from "styled-components";
 
-const TweetActions = () => {
+const TweetActions = ({ numOfLikes, onClickFunc }) => {
   return (
     <Wrapper>
       <FiMessageCircle size={"24px"} />
       <FiRepeat size={"24px"} />
-      <FiHeart size={"24px"} />
+      <FiHeart size={"24px"} onClick={onClickFunc} />
+      {numOfLikes > 0 ? numOfLikes : null}
       <FiShare size={"24px"} />
     </Wrapper>
   );
