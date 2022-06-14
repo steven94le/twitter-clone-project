@@ -35,9 +35,7 @@ const Profile = () => {
         setUserPending(false);
         history.push("/error");
       });
-  }, [profileId, history]);
 
-  useEffect(() => {
     fetch(`/api/${profileId}/feed`)
       .then((res) => {
         if (!res.ok) {
