@@ -62,7 +62,6 @@ const StyledNav = styled.nav`
 `;
 
 const StyledCatLogo = styled.img`
-  margin-left: -20px;
   height: 75px;
   width: 75px;
 `;
