@@ -83,11 +83,14 @@ const Profile = () => {
           <MetricNumber>{user.profile.numFollowing}</MetricNumber> Following{" "}
           <MetricNumber>{user.profile.numFollowers} </MetricNumber>Followers
         </TweetMetrics>
-        <TweetActivity>
-          <TweetTab>Tweet</TweetTab>
-          <MediaTab>Media</MediaTab>
-          <LikesTab>Likes</LikesTab>
-        </TweetActivity>
+        <>
+          <TweetActivity>
+            <TweetTab>Tweet</TweetTab>
+            <MediaTab>Media</MediaTab>
+            <LikesTab>Likes</LikesTab>
+          </TweetActivity>
+          <StyledDivLine />
+        </>
       </ProfileSection>
 
       {userFeed ? (
@@ -125,17 +128,17 @@ const Profile = () => {
 
 const Wrapper = styled.div`
   width: 75%;
+  margin: -10px 0 0 -28px;
 `;
 
 const ProfileSection = styled.div`
-  margin: -5px 0 0 -28px;
+  margin: -5px 0 0 0;
   border: lightgrey solid 0.1px;
   padding: 20px;
 `;
 
 const Banner = styled.img`
-  width: 103.5%;
-  margin: -10px 0 0 -28px;
+  width: 100%;
 `;
 
 const Avatar = styled.img`
@@ -213,6 +216,7 @@ const TweetActivity = styled.div`
   & :not(:first-child) {
     color: grey;
   }
+  position: relative;
 `;
 const TweetTab = styled.button`
   color: ${COLORS.primary};
@@ -243,6 +247,13 @@ const LikesTab = styled.button`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const StyledDivLine = styled.div`
+  border: 2px ${COLORS.primary} solid;
+  position: absolute;
+  margin: 18px 0 0 -20px;
+  width: 20%;
 `;
 
 export default Profile;

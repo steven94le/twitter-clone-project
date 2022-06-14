@@ -68,7 +68,6 @@ const TextArea = () => {
 const Wrapper = styled.div`
   border: lightgrey solid 0.1px;
   border-bottom: lightgrey solid 10px;
-  margin-left: -28px;
   padding: 10px 0 10px;
 `;
 

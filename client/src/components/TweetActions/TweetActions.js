@@ -10,18 +10,24 @@ const TweetActions = ({ numOfLikes, onClickFunc }) => {
       <FiMessageCircle size={"24px"} />
       <FiRepeat size={"24px"} />
       <FiHeart size={"24px"} onClick={onClickFunc} />
-      {numOfLikes > 0 ? numOfLikes : null}
+      <LikeCounter>{numOfLikes > 0 ? numOfLikes : null}</LikeCounter>
       <FiShare size={"24px"} />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  margin: 30px 0 10px 60px;
+  margin: 20px 0 5px 0px;
+  position: relative;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  height: 36px;
+`;
 
-  & :not(:first-child) {
-    margin-left: 20%;
-  }
+const LikeCounter = styled.div`
+  position: absolute;
+  margin: 0.5% 0 0 30%;
 `;
 
 export default TweetActions;

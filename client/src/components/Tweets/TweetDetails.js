@@ -21,7 +21,7 @@ const TweetDetails = () => {
         setTweet(data.tweet);
         setIsPending(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsPending(false);
       });
   }, [tweetId]);

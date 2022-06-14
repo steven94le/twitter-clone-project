@@ -64,11 +64,12 @@ const HomeFeed = () => {
 
 const Wrapper = styled.div`
   width: 75%;
+  margin-left: -28px;
 `;
 
 const StyledHeader = styled.h2`
   border: lightgrey solid 0.1px;
-  margin: -10px 0 0 -28px;
+  margin: -10px 0 0 0;
   padding: 20px 0 20px 20px;
 `;
 
@@ -76,9 +77,8 @@ const Avatar = styled.img`
   position: absolute;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  padding: 20px 10px 0 0px;
-  margin-left: -5px;
+  border-radius: 100%;
+  margin: 15px 0 0 15px;
 `;
 
 export default HomeFeed;

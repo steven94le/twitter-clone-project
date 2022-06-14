@@ -64,7 +64,6 @@ const SmallTweet = ({ props }) => {
 };
 
 const Wrapper = styled.div`
-  margin-left: -28px;
   padding: 20px 20px 0 20px;
   color: black;
   border: lightgrey solid 0.1px;
