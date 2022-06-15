@@ -110,6 +110,10 @@ const TweetButton = styled.button`
   margin-top: 5px;
   border: none;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &:disabled {
     opacity: 0.4;
   }
