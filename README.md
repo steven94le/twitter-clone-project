@@ -66,8 +66,6 @@ Backend:
 - Node.js
 - Express
 
-## **Resources Used :books:**
-
 ## **Author :bust_in_silhouette:**
 
 - Steven Le (GitHub: [@steven94le](https://github.com/steven94le))
