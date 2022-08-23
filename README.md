@@ -5,7 +5,7 @@
 
 # Introduction :wave:
 
-This bootcamp project involved creating a Twitter replica, in which it was my first exposure using React for front-end. The back-end server was done using Node.js and Express, with API endpoints that fetched tweets and user data provided by the instructors.
+This bootcamp project involved creating a Twitter replica, in which it was my first exposure using React for front-end. The back-end server was done using Node.js and Express, with API endpoints that fetched tweet and user data provided by the bootcamp instructors.
 
 ---
 
